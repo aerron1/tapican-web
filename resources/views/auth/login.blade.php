@@ -146,15 +146,16 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="#">
+    <form method="POST" action="{{url('/login')}}">
+      @csrf
       <h2>Login</h2>
       <div class="input-field">
         <input type="text" required>
-        <label>Enter your email</label>
+        <label :value="__('Email')">Enter your email</label>
       </div>
       <div class="input-field">
         <input type="password" required>
-        <label>Enter your password</label>
+        <label :value="__('Password')">Enter your password</label>
       </div>
       <div class="forget">
         <label for="remember">

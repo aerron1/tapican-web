@@ -146,7 +146,8 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="#" method="POST" onsubmit="return handleFormSubmit(event)">
+    <form action="{{route ('register')}}" method="POST" onsubmit="return handleFormSubmit(event)">
+      @csrf
       <h2>Register</h2>
       <div class="input-field">
         <input type="text" required>
@@ -154,16 +155,13 @@
       </div>
       <div class="input-field">
         <input type="email" required>
-        <label>Enter your email</label>
+        <label :value="__('Email')">Enter your email</label>
       </div>
       <div class="input-field">
         <input type="password" required>
-        <label>Enter your password</label>
+        <label :value="__('Password')">Enter your password</label>
       </div>
-      <div class="input-field">
-        <input type="password" required>
-        <label>Confirm your password</label>
-      </div>
+    
       <button type="submit">Register</button>
       <div class="register">
         <p>Already have an account? <a href="{{ route ('login')}}">Log In</a></p>
