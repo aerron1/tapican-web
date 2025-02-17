@@ -21,13 +21,6 @@
       min-height: 100vh;
       width: 100%;
       padding: 0 10px;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
       background: url("../../../login-register-form/d.jpg"), #000;
       background-position: center;
       background-size: cover;
@@ -88,34 +81,10 @@
       transform: translateY(-120%);
     }
 
-    .forget {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 25px 0 35px 0;
-      color: #fff;
-    }
-
-    #remember {
-      accent-color: #fff;
-    }
-
-    .forget label {
-      display: flex;
-      align-items: center;
-    }
-
-    .forget label p {
-      margin-left: 8px;
-    }
-
-    .wrapper a {
-      color: #efefef;
-      text-decoration: none;
-    }
-
-    .wrapper a:hover {
-      text-decoration: underline;
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 5px;
     }
 
     button {
@@ -146,38 +115,42 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="{{route ('register')}}" method="POST" onsubmit="return handleFormSubmit(event)">
+    @if(session('success'))
+      <p style="color: green;">{{ session('success') }}</p>
+    @endif
+    <form action="{{ route('register') }}" method="POST">
       @csrf
       <h2>Register</h2>
       <div class="input-field">
-        <input type="text" required>
-        <label>Enter your name</label>
+        <input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus autocomplete="name"/>
+        <label for="name">Enter your name</label>
+        @error('name')
+          <p class="error-message">{{ $message }}</p>
+        @enderror
       </div>
       <div class="input-field">
-        <input type="email" required>
-        <label :value="__('Email')">Enter your email</label>
+        <input type="email" name="email" id="email" value="{{ old('email') }}" required autocomplete="username"/>
+        <label for="email">Enter your email</label>
+        @error('email')
+          <p class="error-message">{{ $message }}</p>
+        @enderror
       </div>
       <div class="input-field">
-        <input type="password" required>
-        <label :value="__('Password')">Enter your password</label>
+        <input type="password" name="password" required autocomplete="new-password"/>
+        <label>Enter your password</label>
+        @error('password')
+          <p class="error-message">{{ $message }}</p>
+        @enderror
       </div>
-    
+      <div class="input-field">
+        <input type="password" name="password_confirmation" required autocomplete="new-password"/>
+        <label>Confirm your password</label>
+      </div>
       <button type="submit">Register</button>
       <div class="register">
-        <p>Already have an account? <a href="{{ route ('login')}}">Log In</a></p>
+        <p>Already have an account? <a href="{{ route('login') }}">Log In</a></p>
       </div>
     </form>
   </div>
-
-  <script>
-    function handleFormSubmit(event) {
-      event.preventDefault(); // Prevent form from submitting
-
-      // You can add additional form validation or handling here
-
-      // Redirect to index.html
-      window.location.href = "{{ route ('login')}}";
-    }
-  </script>
 </body>
 </html>

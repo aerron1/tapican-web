@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glassmorphism Login Form | CodingNepal</title>
+  <title>Glassmorphism Login Form</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
 
@@ -142,31 +142,55 @@
       margin-top: 30px;
       color: #fff;
     }
+
+    .error-message {
+      color: red;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="wrapper">
-    <form method="POST" action="{{url('/login')}}">
+    @if(session('error'))
+      <p class="error-message">{{ session('error') }}</p>
+    @endif
+
+    <form method="POST" action="{{ route('login') }}">
       @csrf
       <h2>Login</h2>
+
+      @if ($errors->any())
+        <div class="error-message">
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
       <div class="input-field">
-        <input type="text" required>
-        <label :value="__('Email')">Enter your email</label>
+        <input type="email" name="email" id="email" required autocomplete="username" />
+        <label for="email">Enter your email</label>
       </div>
+
       <div class="input-field">
-        <input type="password" required>
-        <label :value="__('Password')">Enter your password</label>
+        <input type="password" name="password" id="password" required autocomplete="current-password" />
+        <label for="password">Enter your password</label>
       </div>
+
       <div class="forget">
         <label for="remember">
-          <input type="checkbox" id="remember">
+          <input type="checkbox" name="remember" id="remember">
           <p>Remember me</p>
         </label>
         <a href="#">Forgot password?</a>
       </div>
+
       <button type="submit">Log In</button>
+
       <div class="register">
-        <p>Don't have an account? <a href="{{ route ('register')}}">Register</a></p>
+        <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
       </div>
     </form>
   </div>
